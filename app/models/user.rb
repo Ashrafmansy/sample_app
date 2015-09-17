@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
     attr_accessor :remember_token, :activation_token, :reset_token 
+    has_many :microposts, dependent: :destroy
     before_save { self.email = email.downcase }
     before_create :create_activation_digest
     
@@ -10,6 +11,10 @@ class User < ActiveRecord::Base
                                     uniqueness:{ case_sensitive: false}
     validates :password, presence: true, length: { minimum: 6 }, allow_nil: true                            
     has_secure_password  
+    
+    def feed
+      microposts
+    end
     # Returns the hash digest of the given string.
     def User.digest(string)
       cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :

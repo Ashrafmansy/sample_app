@@ -38,8 +38,8 @@ end
     cookies.delete(:remember_token)
   end
   
-  def current_user?(current_user)
-    @user == current_user
+  def current_user?(user)
+    current_user == user
   end
   
    # Redirects to stored location (or to the default).
@@ -52,5 +52,6 @@ end
   def store_location
     session[:forwarding_url] = request.url if request.get?
   end
+  
   
 end
